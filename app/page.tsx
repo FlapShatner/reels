@@ -34,6 +34,10 @@ export default function Home() {
   };
 
   const handleGet = async () => {
+    if (!date) {
+      alert('Please select a date');
+      return;
+    }
     setIsLoading(true);
     const filledUrls = urls.filter((url) => url.trim() !== '');
     const reelsData = await getReelsData(filledUrls, date);
