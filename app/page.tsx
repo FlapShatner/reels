@@ -6,11 +6,14 @@ import { DatePicker } from '@/components/date-picker';
 import SubmitButton from '@/components/submit-button';
 import UrlInputs from '@/components/url-inputs';
 import { getTestData } from '@/lib/apify';
+import { DataTable } from '@/components/data-table/data-table';
+import { Reel } from '@/data-types';
 
 export default function Home() {
   const [urls, setUrls] = useState<string[]>(['']);
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<Reel[] | null>(null);
 
   const addUrlInput = () => {
     setUrls([...urls, '']);
@@ -36,6 +39,7 @@ export default function Home() {
     console.log('Date:', date);
     const testData = await getTestData();
     console.log('Test data:', testData);
+    setData(testData as Reel[]);
     setIsLoading(false);
   };
 
@@ -45,7 +49,7 @@ export default function Home() {
         <h1 className="text-2xl font-bold">Reels Data Getter</h1>
         <ModeToggle />
       </div>
-      <div className="w-full max-w-md space-y-3 flex flex-col gap-3">
+      <div className="w-full max-w-md space-y-3 flex flex-col gap-3 my-12">
         <DatePicker
           date={date}
           setDate={setDate}
@@ -62,6 +66,7 @@ export default function Home() {
           urls={urls}
         />
       </div>
+      <DataTable data={data || []} />
     </div>
   );
 }
