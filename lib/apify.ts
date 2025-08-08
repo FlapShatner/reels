@@ -11,7 +11,7 @@ export async function getReelsData(urls: string[], date: Date | undefined) {
     isUserReelFeedURL: false,
     isUserTaggedFeedURL: false,
     onlyPostsNewerThan: date ? date.toISOString() : undefined,
-    resultsLimit: 15,
+    resultsLimit: 1000,
     resultsType: 'stories',
   };
   const run = await client.actor('apify/instagram-scraper').call(input);

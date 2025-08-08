@@ -14,7 +14,6 @@ import { Reel } from '@/data-types';
 function DownloadButton({ table }: { table: Table<Reel> }) {
   const [selectedColumnIds, setSelectedColumnIds] = useState<string[]>([]);
 
-  // Initialize selected columns to all leaf column ids
   useEffect(() => {
     if (selectedColumnIds.length === 0) {
       const ids = table.getAllLeafColumns().map((c) => c.id);
@@ -76,6 +75,7 @@ function DownloadButton({ table }: { table: Table<Reel> }) {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
+
   return (
     <Popover>
       <PopoverTrigger asChild>
