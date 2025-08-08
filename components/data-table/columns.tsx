@@ -57,6 +57,15 @@ export const columns: ColumnDef<Reel>[] = [
   {
     accessorKey: 'hashtags',
     header: 'Hashtags',
+    filterFn: (row, columnId, filterValue) => {
+      const value = (filterValue as string)?.trim().toLowerCase();
+      if (!value) return true;
+      const needle = value.startsWith('#') ? value.slice(1) : value;
+      const tags = (row.getValue<string[]>(columnId) || []).filter(Boolean);
+      return tags.some((t) =>
+        (t.startsWith('#') ? t.slice(1) : t).toLowerCase().includes(needle)
+      );
+    },
     cell: ({ getValue }) => {
       const tags = (getValue<string[]>() || []).filter(Boolean);
       if (tags.length === 0) return '-';

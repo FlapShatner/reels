@@ -2,14 +2,17 @@
 import { columns } from './columns';
 import { Reel } from '@/data-types';
 import { useState } from 'react';
+import { cn } from '@/lib/utils';
 import { ArrowUpDown } from 'lucide-react';
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
+  getFilteredRowModel,
   getSortedRowModel,
   type SortingState,
+  type ColumnFiltersState,
 } from '@tanstack/react-table';
 import {
   Table,
@@ -20,6 +23,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import DownloadButton from '../download-button';
 
 interface DataTableProps {
   data: Reel[];
@@ -27,18 +32,41 @@ interface DataTableProps {
 
 export function DataTable({ data }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
-    state: { sorting },
+    onColumnFiltersChange: setColumnFilters,
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: 100,
+      },
+    },
+    state: { sorting, columnFilters },
   });
 
   return (
-    <div>
+    <div className={cn(data.length > 0 ? 'opacity-100' : 'opacity-30')}>
+      <div className="flex items-center gap-2 pb-4">
+        <Input
+          placeholder="Filter by hashtag"
+          className="max-w-xs"
+          value={
+            (table.getColumn('hashtags')?.getFilterValue() as string) ?? ''
+          }
+          onChange={(e) => {
+            table.getColumn('hashtags')?.setFilterValue(e.target.value);
+            table.setPageIndex(0);
+          }}
+        />
+        <DownloadButton table={table} />
+      </div>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

@@ -17,10 +17,13 @@ function SubmitButton({
       className="w-full max-w-md"
     >
       {isLoading ? (
-        <Loader2Icon
-          size={24}
-          className="animate-spin"
-        />
+        <div className="flex items-center gap-2">
+          <Loader2Icon
+            size={24}
+            className="animate-spin"
+          />{' '}
+          This could take up to a minute{' '}
+        </div>
       ) : urls.filter((url) => url.trim() !== '').length === 0 ? (
         'No URLs entered yet'
       ) : (
