@@ -40,10 +40,10 @@ export default function Home() {
     }
     setIsLoading(true);
     const filledUrls = urls.filter((url) => url.trim() !== '');
-    const reelsData = await getReelsData(filledUrls, date);
-    setData(reelsData as Reel[]);
-    // const testData = await getTestData();
-    // setData(testData as Reel[]);
+    // const reelsData = await getReelsData(filledUrls, date);
+    // setData(reelsData as Reel[]);
+    const testData = await getTestData();
+    setData(testData as Reel[]);
     setIsLoading(false);
   };
 

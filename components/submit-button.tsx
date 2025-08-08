@@ -22,7 +22,7 @@ function SubmitButton({
             size={24}
             className="animate-spin"
           />{' '}
-          This could take up to a minute{' '}
+          This might take a minute or two{' '}
         </div>
       ) : urls.filter((url) => url.trim() !== '').length === 0 ? (
         'No URLs entered yet'
